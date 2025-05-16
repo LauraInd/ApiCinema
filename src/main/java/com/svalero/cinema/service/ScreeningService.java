@@ -2,8 +2,8 @@ package com.svalero.cinema.service;
 
 import com.svalero.cinema.domain.Movie;
 import com.svalero.cinema.domain.Screening;
-import com.svalero.cinema.domain.dto.ScreeningInDto;
-import com.svalero.cinema.domain.dto.ScreeningOutDto;
+import com.svalero.cinema.domain.DTO.ScreeningInDto;
+import com.svalero.cinema.domain.DTO.ScreeningOutDto;
 import com.svalero.cinema.exception.ScreeningNotFoundException;
 import com.svalero.cinema.repository.MovieRepository;
 import com.svalero.cinema.repository.ScreeningRepository;
