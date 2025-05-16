@@ -6,33 +6,36 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Id;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Screening")
-@Table(name="screenings")
+@Entity
+@Table(name = "screenings")
 public class Screening {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @NotNull(message = "Screening time is required")
     private LocalDateTime screeningTime;
-    @Column
+
     @NotNull(message = "Room is required")
+    @Column(nullable = false)
     private String theaterRoom;
-    @Column
+
     @NotNull(message = "Price is required")
+    @Column(nullable = false)
     private double ticketPrice;
 
     private boolean subtitled;
 
     @ManyToOne
-    @JoinColumn(name = "movie_id")
+    @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
     public Long getId() {
@@ -84,4 +87,3 @@ public class Screening {
         this.movie = movie;
     }
 }
-

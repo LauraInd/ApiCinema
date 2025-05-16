@@ -73,7 +73,7 @@ class MovieControllerIntegrationTest {
     //  POST /movies → 400 Bad Request
     @Test
     void shouldReturn400WhenCreatingInvalidMovie() throws Exception {
-        MovieInDto invalidMovie = new MovieInDto(); // Empty DTO
+        MovieInDto invalidMovie = new MovieInDto(); // Empty dto
 
         mockMvc.perform(post("/movies")
                         .contentType(MediaType.APPLICATION_JSON)
