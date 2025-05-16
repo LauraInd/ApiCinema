@@ -1,6 +1,9 @@
 package com.svalero.cinema.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
@@ -20,6 +23,4 @@ public class Screening {
     @ManyToOne
     @JoinColumn(name = "movie_id")
     private Movie movie;
-
-    // Getters, setters, constructors
 }
