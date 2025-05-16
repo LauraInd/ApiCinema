@@ -1,4 +1,74 @@
 package com.svalero.cinema.controller;
 
+import com.svalero.cinema.domain.DTO.MovieInDto;
+import com.svalero.cinema.domain.Movie;
+import com.svalero.cinema.service.MovieService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/movies")
+@RequiredArgsConstructor
 public class MovieController {
+
+    private final MovieService movieService;
+
+    // Obtener todas las películas
+    @GetMapping
+    public ResponseEntity<List<Movie>> getAllMovies() {
+        return ResponseEntity.ok(movieService.findAll());
+    }
+
+    // Buscar película por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Movie> getMovieById(@PathVariable Long id) {
+        return movieService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // Buscar película por título
+    @GetMapping("/title/{title}")
+    public ResponseEntity<Movie> getByTitle(@PathVariable String title) {
+        Movie movie = movieService.findByTitle(title);
+        if (movie != null) {
+            return ResponseEntity.ok(movie);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Buscar película por género
+    @GetMapping("/genre/{genre}")
+    public ResponseEntity<Movie> getByGenre(@PathVariable String genre) {
+        Movie movie = movieService.findByGenre(genre);
+        if (movie != null) {
+            return ResponseEntity.ok(movie);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Crear nueva película
+    @PostMapping
+    public ResponseEntity<Movie> createMovie(@RequestBody MovieInDto movieInDto) {
+        return ResponseEntity.ok(movieService.create(movieInDto));
+    }
+
+    // Actualizar película
+    @PutMapping("/{id}")
+    public ResponseEntity<Movie> updateMovie(@PathVariable Long id, @RequestBody MovieInDto movieInDto) {
+        return ResponseEntity.ok(movieService.update(id, movieInDto));
+    }
+
+    // Eliminar película
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
+        movieService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+
