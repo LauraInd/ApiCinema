@@ -4,6 +4,7 @@ import com.svalero.cinema.domain.Movie;
 import com.svalero.cinema.domain.Screening;
 import com.svalero.cinema.domain.dto.ScreeningInDto;
 import com.svalero.cinema.domain.dto.ScreeningOutDto;
+import com.svalero.cinema.exception.MovieNotFoundException;
 import com.svalero.cinema.exception.ScreeningNotFoundException;
 import com.svalero.cinema.repository.MovieRepository;
 import com.svalero.cinema.repository.ScreeningRepository;
@@ -27,45 +28,68 @@ public class ScreeningService {
     }
 
     public List<ScreeningOutDto> findAll() {
-        List<Screening> screenings = (List<Screening>) screeningRepository.findAll();
-        return screenings.stream().map(this::convertToOutDto).collect(Collectors.toList());
+        return ((List<Screening>) screeningRepository.findAll())
+                .stream()
+                .map(this::convertToOutDto)
+                .collect(Collectors.toList());
     }
 
     public ScreeningOutDto findById(Long id) {
-        Screening screening = screeningRepository.findById(id).orElseThrow(ScreeningNotFoundException::new);
+        Screening screening = screeningRepository.findById(id)
+                .orElseThrow(() -> new ScreeningNotFoundException("Screening with ID " + id + " not found"));
         return convertToOutDto(screening);
     }
 
     public ScreeningOutDto add(ScreeningInDto screeningInDto) throws ScreeningNotFoundException {
-        Screening screening = modelMapper.map(screeningInDto, Screening.class);
-
+        // 1. Buscar película
         Movie movie = movieRepository.findById(screeningInDto.getMovieId())
                 .orElseThrow(() -> new ScreeningNotFoundException("Movie not found"));
 
+        // 2. Crear manualmente la entidad Screening
+        Screening screening = new Screening();
+        screening.setId(null);
+        screening.setScreeningTime(screeningInDto.getScreeningTime());
+        screening.setTheaterRoom(screeningInDto.getTheaterRoom());
+        screening.setTicketPrice(screeningInDto.getTicketPrice());
+        screening.setSubtitled(screeningInDto.isSubtitled());
         screening.setMovie(movie);
 
+        // 3. Guardar en BD
         Screening savedScreening = screeningRepository.save(screening);
-        return modelMapper.map(savedScreening, ScreeningOutDto.class);
+
+        // 4. Crear DTO de salida manualmente
+        ScreeningOutDto outDto = new ScreeningOutDto();
+        outDto.setId(savedScreening.getId());
+        outDto.setScreeningTime(savedScreening.getScreeningTime());
+        outDto.setTheaterRoom(savedScreening.getTheaterRoom());
+        outDto.setTicketPrice(savedScreening.getTicketPrice());
+        outDto.setSubtitled(savedScreening.isSubtitled());
+        outDto.setMovieTitle(savedScreening.getMovie().getTitle());
+
+        return outDto;
     }
 
-    public ScreeningOutDto modify(Long id, ScreeningInDto inDto) {
-        Screening existing = screeningRepository.findById(id).orElseThrow(ScreeningNotFoundException::new);
-        modelMapper.map(inDto, existing);
-        Movie movie = movieRepository.findById(inDto.getMovieId()).orElseThrow();
-        existing.setMovie(movie);
-        screeningRepository.save(existing);
-        return convertToOutDto(existing);
+
+    public ScreeningOutDto modify(Long id, ScreeningInDto screeningInDto) {
+        screeningRepository.findById(id)
+                .orElseThrow(() -> new ScreeningNotFoundException("Screening with ID " + id + " not found"));
+
+        Screening screening = convertToEntity(screeningInDto);
+        screening.setId(id); // preserve ID for update
+        Screening updatedScreening = screeningRepository.save(screening);
+        return convertToOutDto(updatedScreening);
     }
 
     public void delete(Long id) {
-        screeningRepository.findById(id).orElseThrow(ScreeningNotFoundException::new);
+        screeningRepository.findById(id)
+                .orElseThrow(() -> new ScreeningNotFoundException("Screening with ID " + id + " not found"));
         screeningRepository.deleteById(id);
     }
 
-
     private Screening convertToEntity(ScreeningInDto dto) {
         Screening screening = modelMapper.map(dto, Screening.class);
-        Movie movie = movieRepository.findById(dto.getMovieId()).orElseThrow();
+        Movie movie = movieRepository.findById(dto.getMovieId())
+                .orElseThrow(() -> new MovieNotFoundException("Movie with ID " + dto.getMovieId() + " not found"));
         screening.setMovie(movie);
         return screening;
     }
