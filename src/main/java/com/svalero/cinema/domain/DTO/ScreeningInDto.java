@@ -1,7 +1,6 @@
 package com.svalero.cinema.domain.DTO;
 
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Data
