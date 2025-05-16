@@ -4,6 +4,7 @@ import com.svalero.cinema.domain.dto.ScreeningInDto;
 import com.svalero.cinema.domain.dto.ScreeningOutDto;
 import com.svalero.cinema.exception.ScreeningNotFoundException;
 import com.svalero.cinema.service.ScreeningService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,23 +31,30 @@ public class ScreeningController {
     }
 
     @PostMapping("/screenings")
-    public ResponseEntity<ScreeningOutDto>addScreening(@RequestBody ScreeningInDto screeningInDto) throws ScreeningNotFoundException{
+    public ResponseEntity<ScreeningOutDto> addScreening(@Valid @RequestBody ScreeningInDto screeningInDto) throws ScreeningNotFoundException {
         ScreeningOutDto addScreening = screeningService.add(screeningInDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(addScreening);
     }
+
     @PutMapping("/screenings/{screeningId}")
-    public ResponseEntity<ScreeningOutDto> modifyScreening(@PathVariable Long screeningId, @RequestBody ScreeningInDto screeningInDto) throws ScreeningNotFoundException{
+    public ResponseEntity<ScreeningOutDto> modifyScreening(@Valid @PathVariable Long screeningId, @RequestBody ScreeningInDto screeningInDto) throws ScreeningNotFoundException {
         ScreeningOutDto modifyScreening = screeningService.modify(screeningId, screeningInDto);
         return new ResponseEntity<>(modifyScreening, HttpStatus.OK);
     }
+
     @DeleteMapping("/screenings/{screeningId}")
-    public ResponseEntity<Void> deleteScreening(@PathVariable Long screeningId) throws ScreeningNotFoundException{
+    public ResponseEntity<Void> deleteScreening(@PathVariable Long screeningId) throws ScreeningNotFoundException {
         screeningService.delete(screeningId);
         return ResponseEntity.noContent().build();
     }
 
-    @ExceptionHandler
-    public ResponseEntity<String> handleException(ScreeningNotFoundException e) {
-        return ResponseEntity.notFound().build();
+    @ExceptionHandler(ScreeningNotFoundException.class)
+    public ResponseEntity<String> handleScreeningNotFound(ScreeningNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGeneralError(Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno: " + e.getMessage());
     }
 }

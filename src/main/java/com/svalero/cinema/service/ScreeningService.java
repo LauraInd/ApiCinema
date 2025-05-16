@@ -36,12 +36,16 @@ public class ScreeningService {
         return convertToOutDto(screening);
     }
 
-    public ScreeningOutDto add(ScreeningInDto inDto) {
-        Screening screening = convertToEntity(inDto);
-        screening = screeningRepository.save(screening);
-        return convertToOutDto(screening);
+    public ScreeningOutDto add(ScreeningInDto screeningInDto) throws ScreeningNotFoundException {
+        Screening screening = modelMapper.map(screeningInDto, Screening.class);
 
+        Movie movie = movieRepository.findById(screeningInDto.getMovieId())
+                .orElseThrow(() -> new ScreeningNotFoundException("Movie not found"));
 
+        screening.setMovie(movie);
+
+        Screening savedScreening = screeningRepository.save(screening);
+        return modelMapper.map(savedScreening, ScreeningOutDto.class);
     }
 
     public ScreeningOutDto modify(Long id, ScreeningInDto inDto) {
