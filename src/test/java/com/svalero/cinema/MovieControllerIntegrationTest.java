@@ -1,7 +1,7 @@
 package com.svalero.cinema;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.svalero.cinema.domain.DTO.MovieInDto;
+import com.svalero.cinema.domain.dto.MovieInDto;
 import com.svalero.cinema.domain.Movie;
 import com.svalero.cinema.repository.MovieRepository;
 import org.junit.jupiter.api.BeforeEach;

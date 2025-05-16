@@ -1,39 +1,16 @@
-package com.svalero.cinema.domain;
+package com.svalero.cinema.domain.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import jakarta.persistence.Id;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity(name = "Screening")
-@Table(name="screenings")
-public class Screening {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ScreeningOutDto {
     private Long id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime screeningTime;
-    @Column
-    @NotNull(message = "Room is required")
     private String theaterRoom;
-    @Column
-    @NotNull(message = "Price is required")
     private double ticketPrice;
-
     private boolean subtitled;
-
-    @ManyToOne
-    @JoinColumn(name = "movie_id")
-    private Movie movie;
+    private String movieTitle;
 
     public Long getId() {
         return id;
@@ -73,15 +50,13 @@ public class Screening {
 
     public void setSubtitled(boolean subtitled) {
         this.subtitled = subtitled;
-
     }
 
-    public Movie getMovie() {
-        return movie;
+    public String getMovieTitle() {
+        return movieTitle;
     }
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
     }
 }
-

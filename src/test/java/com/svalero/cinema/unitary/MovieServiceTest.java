@@ -1,6 +1,6 @@
 package com.svalero.cinema.unitary;
 
-import com.svalero.cinema.domain.DTO.MovieInDto;
+import com.svalero.cinema.domain.dto.MovieInDto;
 import com.svalero.cinema.domain.Movie;
 import com.svalero.cinema.exception.MovieNotFoundException;
 import com.svalero.cinema.repository.MovieRepository;

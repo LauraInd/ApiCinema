@@ -1,9 +1,10 @@
 package com.svalero.cinema.controller;
 
-import com.svalero.cinema.domain.DTO.MovieInDto;
+import com.svalero.cinema.domain.dto.MovieInDto;
 import com.svalero.cinema.domain.Movie;
 import com.svalero.cinema.service.MovieService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +17,8 @@ import java.util.List;
 @RequestMapping("/movies")
 @RequiredArgsConstructor
 public class MovieController {
-
-    private final MovieService movieService;
+    @Autowired
+    private  MovieService movieService;
 
     // Obtener todas las películas
     @GetMapping
