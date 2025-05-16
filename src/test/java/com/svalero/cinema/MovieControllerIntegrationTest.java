@@ -1,7 +1,7 @@
 package com.svalero.cinema;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.svalero.cinema.domain.DTO.MovieInDto;
+import com.svalero.cinema.domain.dto.MovieInDto;
 import com.svalero.cinema.domain.Movie;
 import com.svalero.cinema.repository.MovieRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,7 +73,7 @@ class MovieControllerIntegrationTest {
     //  POST /movies → 400 Bad Request
     @Test
     void shouldReturn400WhenCreatingInvalidMovie() throws Exception {
-        MovieInDto invalidMovie = new MovieInDto(); // Empty DTO
+        MovieInDto invalidMovie = new MovieInDto(); // Empty dto
 
         mockMvc.perform(post("/movies")
                         .contentType(MediaType.APPLICATION_JSON)

@@ -1,7 +1,7 @@
 package com.svalero.cinema.controller;
 
-import com.svalero.cinema.domain.DTO.ScreeningInDto;
-import com.svalero.cinema.domain.DTO.ScreeningOutDto;
+import com.svalero.cinema.domain.dto.ScreeningInDto;
+import com.svalero.cinema.domain.dto.ScreeningOutDto;
 import com.svalero.cinema.exception.ScreeningNotFoundException;
 import com.svalero.cinema.service.ScreeningService;
 import org.springframework.beans.factory.annotation.Autowired;

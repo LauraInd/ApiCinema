@@ -1,4 +1,4 @@
-package com.svalero.cinema.domain.DTO;
+package com.svalero.cinema.domain.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

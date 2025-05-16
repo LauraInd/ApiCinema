@@ -1,6 +1,6 @@
 package com.svalero.cinema.controller;
 
-import com.svalero.cinema.domain.DTO.MovieInDto;
+import com.svalero.cinema.domain.dto.MovieInDto;
 import com.svalero.cinema.domain.Movie;
 import com.svalero.cinema.service.MovieService;
 import lombok.RequiredArgsConstructor;

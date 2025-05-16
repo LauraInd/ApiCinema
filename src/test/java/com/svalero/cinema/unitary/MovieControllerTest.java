@@ -2,7 +2,7 @@ package com.svalero.cinema.unitary;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.svalero.cinema.controller.MovieController;
-import com.svalero.cinema.domain.DTO.MovieInDto;
+import com.svalero.cinema.domain.dto.MovieInDto;
 import com.svalero.cinema.domain.Movie;
 import com.svalero.cinema.service.MovieService;
 import org.junit.jupiter.api.BeforeEach;
