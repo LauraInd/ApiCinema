@@ -26,4 +26,5 @@ public class MovieInDto {
     @NotNull(message = "Release date is required")
     private LocalDate releaseDate;
     private boolean currentlyShowing;
+  
 }

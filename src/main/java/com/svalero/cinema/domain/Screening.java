@@ -37,4 +37,53 @@ public class Screening {
     @ManyToOne
     @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getScreeningTime() {
+        return screeningTime;
+    }
+
+    public void setScreeningTime(LocalDateTime screeningTime) {
+        this.screeningTime = screeningTime;
+    }
+
+    public String getTheaterRoom() {
+        return theaterRoom;
+    }
+
+    public void setTheaterRoom(String theaterRoom) {
+        this.theaterRoom = theaterRoom;
+    }
+
+    public double getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(double ticketPrice) {
+        this.ticketPrice = ticketPrice;
+    }
+
+    public boolean isSubtitled() {
+        return subtitled;
+    }
+
+    public void setSubtitled(boolean subtitled) {
+        this.subtitled = subtitled;
+
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
 }
