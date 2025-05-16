@@ -25,6 +25,10 @@ public class MovieService {
     public MovieService(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
     }
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
 
     // Obtener todas las películas
     public List<Movie> findAll() {
@@ -72,8 +76,14 @@ public class MovieService {
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new MovieNotFoundException("Movie not found with id: " + id));
 
-        modelMapper.map(movieInDto, movie); // Sobrescribe los campos del objeto existente
+        movie.setTitle(movieInDto.getTitle());
+        movie.setGenre(movieInDto.getGenre());
+        movie.setDurationMinutes(movieInDto.getDurationMinutes());
+        movie.setReleaseDate(movieInDto.getReleaseDate());
+        movie.setCurrentlyShowing(movieInDto.isCurrentlyShowing());
+
         return movieRepository.save(movie);
+
     }
 
     // Actualización parcial (PATCH)

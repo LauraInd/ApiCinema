@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -56,7 +57,7 @@ public class MovieController {
 
     // Crear nueva película
     @PostMapping
-    public ResponseEntity<Movie> createMovie(@RequestBody MovieInDto movieInDto) {
+    public ResponseEntity<Movie> createMovie(@Valid @RequestBody MovieInDto movieInDto) {
         return ResponseEntity.ok(movieService.create(movieInDto));
     }
 

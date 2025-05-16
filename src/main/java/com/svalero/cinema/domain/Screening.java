@@ -1,6 +1,8 @@
 package com.svalero.cinema.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,13 +20,19 @@ public class Screening {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime screeningTime;
+    @Column
+    @NotNull(message = "Room is required")
     private String theaterRoom;
+    @Column
+    @NotNull(message = "Price is required")
     private double ticketPrice;
+
     private boolean subtitled;
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
     private Movie movie;
 }
+
