@@ -3,6 +3,7 @@ package com.svalero.cinema.repository;
 import com.svalero.cinema.domain.Movie;
 import org.springframework.data.repository.CrudRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface MovieRepository extends CrudRepository<Movie, Long> {
@@ -14,5 +15,8 @@ public interface MovieRepository extends CrudRepository<Movie, Long> {
     Movie findByTitle(String title);
 
     Movie findByGenre(String genre);
+
+    List<Movie> findByReleaseDate(LocalDate releaseDate);
+
 }
 

@@ -4,9 +4,11 @@ import com.svalero.cinema.domain.DTO.MovieInDto;
 import com.svalero.cinema.domain.Movie;
 import com.svalero.cinema.service.MovieService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -63,6 +65,12 @@ public class MovieController {
     public ResponseEntity<Movie> updateMovie(@PathVariable Long id, @RequestBody MovieInDto movieInDto) {
         return ResponseEntity.ok(movieService.update(id, movieInDto));
     }
+
+    @GetMapping("/release-date/{date}")
+    public ResponseEntity<List<Movie>> getByReleaseDate(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return ResponseEntity.ok(movieService.findByReleaseDate(date));
+    }
+
 
     // Eliminar película
     @DeleteMapping("/{id}")
