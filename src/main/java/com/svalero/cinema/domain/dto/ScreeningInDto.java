@@ -1,5 +1,6 @@
 package com.svalero.cinema.domain.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,9 +11,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScreeningInDto {
+
+    @NotNull(message = "Screening time is required")
     private LocalDateTime screeningTime;
+
+    @NotNull(message = "Theater room is required")
     private String theaterRoom;
-    private double ticketPrice;
+
+    @NotNull(message = "Ticket price is required")
+    private Double ticketPrice;
+
     private boolean subtitled;
+
+    @NotNull(message = "Movie ID is required")
     private Long movieId;
 }
